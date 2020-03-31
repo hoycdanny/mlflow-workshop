@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: mlflow
-          image: gcr.io/google-samples/node-hello:1.0
+          image: hoycdanny/mlflow-workshop
           ports:
             - containerPort: 5000
               protocol: TCP
