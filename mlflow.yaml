@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+spec:
+  selector:
+    matchLabels:
+      run: mlflow
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: mlflow
+    spec:
+      containers:
+        - name: mlflow
+          image: gcr.io/google-samples/node-hello:1.0
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mlflow-service-epic-lb
+  labels:
+    hpecp.hpe.com/hpecp-internal-gateway: "true"
+spec:
+  selector:
+    run: mlflow-balancer-example
+  ports:
+  - name: http-mlflow
+    protocol: TCP
+    port: 5000
+    targetPort: 5000
+  type: NodePort
